@@ -5,6 +5,7 @@ import kg.megalab.receiptanalyzerservice.dto.CreateReceiptRequest;
 import kg.megalab.receiptanalyzerservice.dto.ReceiptResponse;
 import kg.megalab.receiptanalyzerservice.service.ReceiptService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,12 +23,6 @@ public class ReceiptController {
         return receiptService.createReceipt(request);
     }
 
-    @GetMapping
-    public List<ReceiptResponse> getAll() {
-
-        return receiptService.getAllReceipts();
-    }
-
     @GetMapping("/{id}")
     public ReceiptResponse getById(
             @PathVariable Long id) {
@@ -40,5 +35,15 @@ public class ReceiptController {
             @PathVariable Long id) {
 
         receiptService.deleteReceipt(id);
+    }
+
+    @GetMapping
+    public Page<ReceiptResponse> getAll(
+            @RequestParam(defaultValue = "0")
+            int page,
+
+            @RequestParam(defaultValue = "10")
+            int size){
+        return receiptService.getAllReceipts(page, size);
     }
 }

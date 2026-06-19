@@ -8,6 +8,9 @@ import kg.megalab.receiptanalyzerservice.entity.Receipt;
 import kg.megalab.receiptanalyzerservice.exception.ReceiptNotFoundException;
 import kg.megalab.receiptanalyzerservice.repository.ReceiptRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -103,5 +106,19 @@ public class ReceiptServiceImpl implements ReceiptService {
                         new ReceiptNotFoundException(id));
 
         receiptRepository.delete(receipt);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<ReceiptResponse> getAllReceipts(
+            int page,
+            int size) {
+
+        Pageable pageable =
+                PageRequest.of(page, size);
+
+        return receiptRepository
+                .findAll(pageable)
+                .map(this::toResponse);
     }
 }
