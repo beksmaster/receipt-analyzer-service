@@ -1,0 +1,43 @@
+package kg.megalab.receiptanalyzerservice.controller;
+
+import kg.megalab.receiptanalyzerservice.dto.CreateReceiptRequest;
+import kg.megalab.receiptanalyzerservice.dto.ReceiptResponse;
+import kg.megalab.receiptanalyzerservice.service.ReceiptService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/receipts")
+@RequiredArgsConstructor
+public class ReceiptController {
+
+    private final ReceiptService receiptService;
+
+    @PostMapping
+    public Long createReceipt(
+            @RequestBody CreateReceiptRequest request) {
+        return receiptService.createReceipt(request);
+    }
+
+    @GetMapping
+    public List<ReceiptResponse> getAll() {
+
+        return receiptService.getAllReceipts();
+    }
+
+    @GetMapping("/{id}")
+    public ReceiptResponse getById(
+            @PathVariable Long id) {
+
+        return receiptService.getReceiptById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(
+            @PathVariable Long id) {
+
+        receiptService.deleteReceipt(id);
+    }
+}
