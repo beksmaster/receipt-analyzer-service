@@ -97,7 +97,8 @@ public class ReceiptParserImpl implements ReceiptParser {
                     products.add(
                             new ParsedProduct(
                                     name,
-                                    new BigDecimal(priceString)
+                                    new BigDecimal(priceString),
+                                    1
                             )
                     );
 

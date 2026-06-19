@@ -7,6 +7,7 @@ import kg.megalab.receiptanalyzerservice.parser.ParsedProduct;
 import kg.megalab.receiptanalyzerservice.repository.ReceiptImageRepository;
 import kg.megalab.receiptanalyzerservice.service.FileStorageService;
 import kg.megalab.receiptanalyzerservice.service.OcrService;
+import kg.megalab.receiptanalyzerservice.service.ReceiptImportService;
 import kg.megalab.receiptanalyzerservice.service.ReceiptProcessingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class FileController {
     private final ReceiptImageRepository receiptImageRepository;
     private final OcrService ocrService;
     private final ReceiptProcessingService receiptProcessingService;
-
+    private final ReceiptImportService receiptImportService;
 
     @GetMapping("/{id}/parsed")
     public List<ParsedProduct> parseReceipt(
@@ -57,5 +58,13 @@ public class FileController {
         return ocrService.extractText(
                 image.getFilePath()
         );
+    }
+
+    @PostMapping("/{id}/import")
+    public Long importReceipt(
+            @PathVariable Long id) {
+
+        return receiptImportService
+                .importReceipt(id);
     }
 }

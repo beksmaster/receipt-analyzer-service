@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 public record ParsedProduct(
         String name,
-        BigDecimal price
+        BigDecimal price,
+        Integer quantity
 ) {
 }
