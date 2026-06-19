@@ -4,6 +4,7 @@ import kg.megalab.receiptanalyzerservice.dto.FileUploadResponse;
 
 import kg.megalab.receiptanalyzerservice.entity.ReceiptImage;
 import kg.megalab.receiptanalyzerservice.repository.ReceiptImageRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,9 +18,10 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class FileStorageServiceImpl implements FileStorageService {
 
-    ReceiptImageRepository receiptImageRepository;
+    private final ReceiptImageRepository receiptImageRepository;
     @Value("${file.upload-dir}")
     private String uploadDir;
 
@@ -63,9 +65,10 @@ public class FileStorageServiceImpl implements FileStorageService {
             image.setFileSize(file.getSize());
             image.setUploadedAt(LocalDateTime.now());
 
-            receiptImageRepository.save(image);
+            ReceiptImage saved = receiptImageRepository.save(image);
 
             return new FileUploadResponse(
+                    saved.getId(),
                     fileName,
                     filePath.toString(),
                     file.getSize()
