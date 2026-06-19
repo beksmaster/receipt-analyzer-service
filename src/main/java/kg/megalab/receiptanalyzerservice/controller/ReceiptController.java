@@ -1,5 +1,6 @@
 package kg.megalab.receiptanalyzerservice.controller;
 
+import jakarta.validation.Valid;
 import kg.megalab.receiptanalyzerservice.dto.CreateReceiptRequest;
 import kg.megalab.receiptanalyzerservice.dto.ReceiptResponse;
 import kg.megalab.receiptanalyzerservice.service.ReceiptService;
@@ -17,7 +18,7 @@ public class ReceiptController {
 
     @PostMapping
     public Long createReceipt(
-            @RequestBody CreateReceiptRequest request) {
+            @Valid @RequestBody CreateReceiptRequest request) {
         return receiptService.createReceipt(request);
     }
 
