@@ -28,4 +28,14 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.badRequest().body(errors);
     }
+
+    @ExceptionHandler(
+            InvalidFileTypeException.class)
+    public ResponseEntity<String> handleInvalidFile(
+            InvalidFileTypeException ex) {
+
+        return ResponseEntity
+                .badRequest()
+                .body(ex.getMessage());
+    }
 }
